@@ -3,7 +3,9 @@
 	"description": "Request timeout library for Excimer with plain PHP fallback",
 	"license": "MIT",
 	"authors": [
-		{ "name": "Tim Starling" }
+		{
+			"name": "Tim Starling"
+		}
 	],
 	"scripts": {
 		"lint": "parallel-lint . --exclude vendor",
@@ -24,7 +26,7 @@
 	},
 	"require-dev": {
 		"mediawiki/mediawiki-codesniffer": "34.0.0",
-		"mediawiki/mediawiki-phan-config": "0.10.5",
+		"mediawiki/mediawiki-phan-config": "0.10.6",
 		"php-parallel-lint/php-console-highlighter": "0.5.0",
 		"php-parallel-lint/php-parallel-lint": "1.2.0",
 		"phpunit/phpunit": "^8.5"
