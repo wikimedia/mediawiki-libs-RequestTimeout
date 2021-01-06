@@ -88,14 +88,24 @@ abstract class RequestTimeout {
 	 * causes a fatal error after the CPU time (not wall clock time) exceeds
 	 * the given number of seconds, which is rounded to an integer.
 	 *
+	 * A time limit of INF or 0 is interpreted as no limit.
+	 *
 	 * @param float $limit The limit in seconds
 	 */
 	abstract public function setWallTimeLimit( $limit );
 
 	/**
-	 * Get the amount of time remaining of the limit.
+	 * Get the amount of time remaining of the limit. If there is no limit, INF
+	 * will be returned.
 	 *
 	 * @return float
 	 */
 	abstract public function getWallTimeRemaining();
+
+	/**
+	 * Get the current wall time limit, or INF if there is no limit
+	 *
+	 * @return float
+	 */
+	abstract public function getWallTimeLimit();
 }

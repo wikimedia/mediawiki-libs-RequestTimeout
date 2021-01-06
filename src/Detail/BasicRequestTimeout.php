@@ -34,6 +34,9 @@ class BasicRequestTimeout extends RequestTimeout {
 	}
 
 	public function setWallTimeLimit( $limit ) {
+		if ( $limit === INF ) {
+			$limit = 0;
+		}
 		$this->limit = ceil( $limit );
 		$this->startTime = $this->getCpuTime();
 		set_time_limit( $this->limit );
@@ -42,6 +45,14 @@ class BasicRequestTimeout extends RequestTimeout {
 	public function getWallTimeRemaining() {
 		if ( $this->startTime !== null && $this->limit > 0 ) {
 			return $this->limit - $this->getCpuTime() + $this->startTime;
+		} else {
+			return INF;
+		}
+	}
+
+	public function getWallTimeLimit() {
+		if ( $this->limit > 0 ) {
+			return $this->limit;
 		} else {
 			return INF;
 		}

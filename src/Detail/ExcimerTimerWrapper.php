@@ -28,6 +28,9 @@ class ExcimerTimerWrapper {
 	/** @var array|null Data about the pending timeout, or null if no timeout is pending */
 	private $pending;
 
+	/** @var float */
+	private $limit = INF;
+
 	/**
 	 * @param string $name
 	 * @param float $emergencyLimit
@@ -61,7 +64,8 @@ class ExcimerTimerWrapper {
 	 * @param float $limit The limit in seconds
 	 */
 	public function setWallTimeLimit( $limit ) {
-		if ( $limit > 0 ) {
+		if ( $limit > 0 && $limit !== INF ) {
+			$this->limit = (float)$limit;
 			$this->timer = new ExcimerTimer;
 			$this->timer->setInterval( $limit );
 			$this->timer->setCallback( function () use ( $limit ) {
@@ -70,6 +74,7 @@ class ExcimerTimerWrapper {
 			$this->timer->start();
 		} else {
 			$this->stop();
+			$this->limit = INF;
 		}
 	}
 
@@ -104,6 +109,15 @@ class ExcimerTimerWrapper {
 		} else {
 			return INF;
 		}
+	}
+
+	/**
+	 * Get the current wall time limit, or INF if there is no limit
+	 *
+	 * @return float
+	 */
+	public function getWallTimeLimit() {
+		return $this->limit;
 	}
 
 	/**

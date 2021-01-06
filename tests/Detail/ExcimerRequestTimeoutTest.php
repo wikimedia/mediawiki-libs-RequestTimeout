@@ -116,4 +116,21 @@ class ExcimerRequestTimeoutTest extends TestCase {
 		// @phan-suppress-next-line PhanInfiniteLoop
 		while ( true );
 	}
+
+	public static function provideGetWallTimeLimit() {
+		return [
+			[ 10, 10.0 ],
+			[ INF, INF ],
+			[ 0, INF ]
+		];
+	}
+
+	/**
+	 * @dataProvider provideGetWallTimeLimit
+	 */
+	public function testGetWallTimeLimit( $input, $expected ) {
+		$rt = new ExcimerRequestTimeout();
+		$rt->setWallTimeLimit( $input );
+		$this->assertSame( $expected, $rt->getWallTimeLimit() );
+	}
 }

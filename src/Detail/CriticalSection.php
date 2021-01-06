@@ -31,7 +31,7 @@ class CriticalSection {
 			};
 		}
 
-		if ( $emergencyLimit ) {
+		if ( $emergencyLimit > 0 && $emergencyLimit !== INF ) {
 			$this->emergencyTimer = new ExcimerTimer;
 			$this->emergencyTimer->setInterval( $emergencyLimit );
 			$this->emergencyTimer->setCallback( $emergencyCallback );

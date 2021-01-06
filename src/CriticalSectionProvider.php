@@ -55,7 +55,7 @@ class CriticalSectionProvider {
 	public function enter( $name ) {
 		$id = $this->requestTimeout->enterCriticalSection(
 			$name, $this->emergencyLimit, $this->emergencyCallback );
-		$this->stack[] = [
+		$this->stack[ count( $this->stack ) ] = [
 			'name' => $name,
 			'id' => $id
 		];

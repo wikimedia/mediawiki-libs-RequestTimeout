@@ -39,4 +39,25 @@ class BasicRequestTimeoutTest extends TestCase {
 		$csp->exit( __METHOD__ );
 		$this->assertTrue( true );
 	}
+
+	public static function provideGetWallTimeLimit() {
+		return [
+			[ 10, 10.0 ],
+			[ INF, INF ],
+			[ 0, INF ]
+		];
+	}
+
+	/**
+	 * @dataProvider provideGetWallTimeLimit
+	 */
+	public function testGetWallTimeLimit( $input, $expected ) {
+		$rt = new BasicRequestTimeout();
+		$rt->setWallTimeLimit( $input );
+		$this->assertSame( $expected, $rt->getWallTimeLimit() );
+	}
+
+	protected function tearDown(): void {
+		set_time_limit( 0 );
+	}
 }

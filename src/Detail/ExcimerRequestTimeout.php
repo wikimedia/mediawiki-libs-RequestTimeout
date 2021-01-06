@@ -41,4 +41,8 @@ class ExcimerRequestTimeout extends RequestTimeout {
 	public function getWallTimeRemaining() {
 		return $this->timerWrapper->getWallTimeRemaining();
 	}
+
+	public function getWallTimeLimit() {
+		return $this->timerWrapper->getWallTimeLimit();
+	}
 }
