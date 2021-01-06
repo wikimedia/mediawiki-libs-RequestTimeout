@@ -2,6 +2,7 @@
 	"name": "wikimedia/request-timeout",
 	"description": "Request timeout library for Excimer with plain PHP fallback",
 	"license": "MIT",
+	"homepage": "https://www.mediawiki.org/wiki/RequestTimeout",
 	"authors": [
 		{
 			"name": "Tim Starling"
@@ -15,9 +16,13 @@
 		"test": [
 			"@lint",
 			"@phpcs",
-			"@phan"
+			"@phan",
+			"covers-validator",
+			"minus-x check ."
 		],
+		"cover": "phpunit --coverage-html coverage",
 		"fix": [
+			"minus-x fix .",
 			"phpcbf"
 		]
 	},
@@ -27,6 +32,8 @@
 	"require-dev": {
 		"mediawiki/mediawiki-codesniffer": "34.0.0",
 		"mediawiki/mediawiki-phan-config": "0.10.6",
+		"mediawiki/minus-x": "1.1.0",
+		"ockcyp/covers-validator": "1.3.3",
 		"php-parallel-lint/php-console-highlighter": "0.5.0",
 		"php-parallel-lint/php-parallel-lint": "1.2.0",
 		"phpunit/phpunit": "^8.5"
