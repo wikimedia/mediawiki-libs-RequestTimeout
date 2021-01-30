@@ -8,7 +8,6 @@
 		  - For methods that are not overriding something, this rule is correct,
 		  - but there is apparently no way to select only those methods.
 		  -->
-		<exclude name="MediaWiki.Commenting.FunctionComment.MissingDocumentationProtected" />
 		<exclude name="MediaWiki.Commenting.FunctionComment.MissingDocumentationPublic" />
 	</rule>
 	<file>.</file>
