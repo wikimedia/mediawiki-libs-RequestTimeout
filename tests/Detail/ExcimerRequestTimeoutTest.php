@@ -3,6 +3,7 @@
 namespace Wikimedia\RequestTimeout\Tests\Detail;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Wikimedia\RequestTimeout\Detail\ExcimerRequestTimeout;
 use Wikimedia\RequestTimeout\EmergencyTimeoutException;
 use Wikimedia\RequestTimeout\RequestTimeoutException;
@@ -92,6 +93,34 @@ class ExcimerRequestTimeoutTest extends TestCase {
 		$this->assertInstanceOf( RequestTimeoutException::class, $e );
 	}
 
+	public function testScopedCriticalSectionImplicitCallbackConfigured() {
+		$rt = new ExcimerRequestTimeout;
+		$i = 0;
+		$func = function ( $id ) use ( &$i ) {
+			$i++;
+		};
+		$csp = $rt->createCriticalSectionProvider( 10, null, $func );
+		$rt->setWallTimeLimit( 10 );
+		$scope = $csp->scopedEnter( __METHOD__ );
+		$scope = null;
+		$this->assertSame( 1, $i );
+	}
+
+	public function testScopedCriticalSectionImplicitCallbackOverride() {
+		$rt = new ExcimerRequestTimeout;
+		$i = 0;
+		$noop = function () {
+		};
+		$func = function ( $id ) use ( &$i ) {
+			$i++;
+		};
+		$csp = $rt->createCriticalSectionProvider( 10, null, $noop );
+		$rt->setWallTimeLimit( 10 );
+		$scope = $csp->scopedEnter( __METHOD__, null, null, $func );
+		$scope = null;
+		$this->assertSame( 1, $i );
+	}
+
 	public function testScopedCriticalSectionExplicit() {
 		$rt = new ExcimerRequestTimeout;
 		$csp = $rt->createCriticalSectionProvider( 10 );
@@ -115,6 +144,34 @@ class ExcimerRequestTimeoutTest extends TestCase {
 		$this->expectException( EmergencyTimeoutException::class );
 		// @phan-suppress-next-line PhanInfiniteLoop
 		while ( true );
+	}
+
+	public function testOverrideEmergencyTimeout() {
+		$rt = new ExcimerRequestTimeout;
+		$csp = $rt->createCriticalSectionProvider(
+			INF,
+			function () {
+			}
+		);
+		$csp->enter(
+			__METHOD__,
+			0.1,
+			function () {
+				throw new RuntimeException;
+			}
+		);
+		$this->expectException( RuntimeException::class );
+		// @phan-suppress-next-line PhanInfiniteLoop
+		while ( true );
+	}
+
+	public function testEmergencyTimeoutInfinite() {
+		$rt = new ExcimerRequestTimeout;
+		$rt->setWallTimeLimit( 10 );
+		$csp = $rt->createCriticalSectionProvider( INF );
+		$csp->enter( __METHOD__ );
+		$csp->exit( __METHOD__ );
+		$this->assertTrue( true );
 	}
 
 	public static function provideGetWallTimeLimit() {
