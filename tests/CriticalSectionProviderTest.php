@@ -15,6 +15,7 @@ class CriticalSectionProviderTest extends TestCase {
 		return new CriticalSectionProvider(
 			new BasicRequestTimeout,
 			10,
+			null,
 			null
 		);
 	}
@@ -55,5 +56,16 @@ class CriticalSectionProviderTest extends TestCase {
 		$this->expectException( CriticalSectionMismatchException::class );
 		$csp = $this->createProvider();
 		$csp->exit( 'b' );
+	}
+
+	public function testScopeId() {
+		$csp = $this->createProvider();
+		$scope = $csp->scopedEnter( __METHOD__ );
+		$id1 = $scope->getId();
+		$this->assertIsInt( $id1 );
+		$scope = $csp->scopedEnter( __METHOD__ );
+		$id2 = $scope->getId();
+		$this->assertIsInt( $id2 );
+		$this->assertNotEquals( $id1, $id2 );
 	}
 }
