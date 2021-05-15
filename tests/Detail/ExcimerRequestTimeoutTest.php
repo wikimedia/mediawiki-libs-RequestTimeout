@@ -96,7 +96,7 @@ class ExcimerRequestTimeoutTest extends TestCase {
 	public function testScopedCriticalSectionImplicitCallbackConfigured() {
 		$rt = new ExcimerRequestTimeout;
 		$i = 0;
-		$func = function ( $id ) use ( &$i ) {
+		$func = static function ( $id ) use ( &$i ) {
 			$i++;
 		};
 		$csp = $rt->createCriticalSectionProvider( 10, null, $func );
@@ -109,9 +109,9 @@ class ExcimerRequestTimeoutTest extends TestCase {
 	public function testScopedCriticalSectionImplicitCallbackOverride() {
 		$rt = new ExcimerRequestTimeout;
 		$i = 0;
-		$noop = function () {
+		$noop = static function () {
 		};
-		$func = function ( $id ) use ( &$i ) {
+		$func = static function ( $id ) use ( &$i ) {
 			$i++;
 		};
 		$csp = $rt->createCriticalSectionProvider( 10, null, $noop );
@@ -150,13 +150,13 @@ class ExcimerRequestTimeoutTest extends TestCase {
 		$rt = new ExcimerRequestTimeout;
 		$csp = $rt->createCriticalSectionProvider(
 			INF,
-			function () {
+			static function () {
 			}
 		);
 		$csp->enter(
 			__METHOD__,
 			0.1,
-			function () {
+			static function () {
 				throw new RuntimeException;
 			}
 		);
