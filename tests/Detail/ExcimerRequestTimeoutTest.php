@@ -35,6 +35,7 @@ class ExcimerRequestTimeoutTest extends TestCase {
 	}
 
 	public function testTimeout() {
+		// @phan-suppress-previous-line PhanPluginNeverReturnMethod
 		$this->expectException( RequestTimeoutException::class );
 		$rt = new ExcimerRequestTimeout;
 		$rt->setWallTimeLimit( 0.1 );
@@ -138,6 +139,7 @@ class ExcimerRequestTimeoutTest extends TestCase {
 	}
 
 	public function testEmergencyTimeout() {
+		// @phan-suppress-previous-line PhanPluginNeverReturnMethod
 		$rt = new ExcimerRequestTimeout;
 		$csp = $rt->createCriticalSectionProvider( 0.1 );
 		$csp->enter( __METHOD__ );
@@ -147,6 +149,7 @@ class ExcimerRequestTimeoutTest extends TestCase {
 	}
 
 	public function testOverrideEmergencyTimeout() {
+		// @phan-suppress-previous-line PhanPluginNeverReturnMethod
 		$rt = new ExcimerRequestTimeout;
 		$csp = $rt->createCriticalSectionProvider(
 			INF,
@@ -156,6 +159,7 @@ class ExcimerRequestTimeoutTest extends TestCase {
 		$csp->enter(
 			__METHOD__,
 			0.1,
+			/** @return never */
 			static function () {
 				throw new RuntimeException;
 			}
