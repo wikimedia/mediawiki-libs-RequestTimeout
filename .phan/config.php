@@ -12,7 +12,6 @@ $cfg['directory_list'] = [
 	'tests'
 ];
 $cfg['exclude_analysis_directory_list'][] = 'vendor';
-$cfg['exclude_file_regex'] = '@/vendor/(phan|mediawiki|php-parallel-lint)/@';
 $cfg['suppress_issue_types'] = [
 	// It's a library, methods don't have to be called
 	'PhanUnreferencedPublicMethod',
