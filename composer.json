@@ -28,7 +28,7 @@
 	},
 	"require": {
 		"php": ">=7.4",
-		"wikimedia/normalized-exception": "1.0.1 || 2.0.0"
+		"wikimedia/normalized-exception": "1.0.1 || ^2.0.0"
 	},
 	"require-dev": {
 		"mediawiki/mediawiki-codesniffer": "45.0.0",
