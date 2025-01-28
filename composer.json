@@ -15,6 +15,7 @@
 		"phan": "phan -p --allow-polyfill-parser --config-file=.phan/config.php --long-progress-bar",
 		"test": [
 			"@lint",
+			"@phpunit",
 			"@phpcs",
 			"@phan",
 			"covers-validator",
