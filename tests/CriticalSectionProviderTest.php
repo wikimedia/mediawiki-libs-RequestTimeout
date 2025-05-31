@@ -9,6 +9,7 @@ use Wikimedia\RequestTimeout\Detail\BasicRequestTimeout;
 
 /**
  * @covers \Wikimedia\RequestTimeout\CriticalSectionProvider
+ * @covers \Wikimedia\RequestTimeout\CriticalSectionMismatchException
  */
 class CriticalSectionProviderTest extends TestCase {
 	private function createProvider() {

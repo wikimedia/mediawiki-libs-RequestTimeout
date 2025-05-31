@@ -13,6 +13,9 @@ use Wikimedia\RequestTimeout\RequestTimeoutException;
  * @covers \Wikimedia\RequestTimeout\Detail\ExcimerTimerWrapper
  * @covers \Wikimedia\RequestTimeout\CriticalSectionScope
  * @covers \Wikimedia\RequestTimeout\CriticalSectionProvider
+ * @covers \Wikimedia\RequestTimeout\EmergencyTimeoutException
+ * @covers \Wikimedia\RequestTimeout\RequestTimeoutException
+ * @covers \Wikimedia\RequestTimeout\TimeoutException
  * @requires extension excimer
  */
 class ExcimerRequestTimeoutTest extends TestCase {

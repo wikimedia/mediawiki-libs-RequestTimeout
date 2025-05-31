@@ -7,6 +7,7 @@ use Wikimedia\RequestTimeout\Detail\BasicRequestTimeout;
 
 /**
  * @covers \Wikimedia\RequestTimeout\Detail\BasicRequestTimeout
+ * @covers \Wikimedia\RequestTimeout\RequestTimeout
  */
 class BasicRequestTimeoutTest extends TestCase {
 	public function testSetTimeLimit() {
