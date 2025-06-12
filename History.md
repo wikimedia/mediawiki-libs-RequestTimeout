@@ -1,5 +1,11 @@
 # Request timeout library changelog
 
+## v3.0.0
+
+* [BREAKING CHANGE] Drop PHP 7.4 and PHP 8.0 support. (James D. Forrester)
+* Update for Excimer 1.2.4+. Keep a pool of timers rather than creating a new
+  timer for each critical section. (Tim Starling)
+
 ## v2.0.2
 
 ### Bug fixes
