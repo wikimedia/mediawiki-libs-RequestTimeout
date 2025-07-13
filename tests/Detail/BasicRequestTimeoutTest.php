@@ -23,6 +23,7 @@ class BasicRequestTimeoutTest extends TestCase {
 		$this->assertGreaterThan( 8, $rt->getWallTimeRemaining() );
 
 		$t = microtime( true );
+		// @phan-suppress-next-line PhanPossiblyInfiniteLoop,PhanSideEffectFreeWhileBody
 		while ( microtime( true ) < $t + 0.1 );
 
 		$remaining = $rt->getWallTimeRemaining();

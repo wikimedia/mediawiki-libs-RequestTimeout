@@ -48,6 +48,7 @@ class ExcimerTimerWrapper {
 		if ( !$emergencyCallback ) {
 			/** @return never */
 			$emergencyCallback = static function () use ( $name, $emergencyLimit ) {
+				// @phan-suppress-next-line PhanThrowTypeAbsent
 				throw new EmergencyTimeoutException( $name, $emergencyLimit );
 			};
 		}

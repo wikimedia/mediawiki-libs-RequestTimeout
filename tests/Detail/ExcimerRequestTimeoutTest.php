@@ -42,7 +42,7 @@ class ExcimerRequestTimeoutTest extends TestCase {
 		$this->expectException( RequestTimeoutException::class );
 		$rt = new ExcimerRequestTimeout;
 		$rt->setWallTimeLimit( 0.1 );
-		// @phan-suppress-next-line PhanInfiniteLoop
+		// @phan-suppress-next-line PhanInfiniteLoop,PhanSideEffectFreeWhileBody
 		while ( true );
 	}
 
@@ -58,6 +58,7 @@ class ExcimerRequestTimeoutTest extends TestCase {
 	public function testDestructStops() {
 		$rt = new ExcimerRequestTimeout;
 		$rt->setWallTimeLimit( 0.1 * self::ROBUSTNESS_FACTOR );
+		// @phan-suppress-next-line PhanUnusedVariable Trigger destructor
 		$rt = null;
 		for ( $i = 0; $i < 4; $i++ ) {
 			usleep( 50000 * self::ROBUSTNESS_FACTOR );
@@ -85,12 +86,14 @@ class ExcimerRequestTimeoutTest extends TestCase {
 		$rt = new ExcimerRequestTimeout;
 		$csp = $rt->createCriticalSectionProvider( 10 );
 		$rt->setWallTimeLimit( 0.1 * self::ROBUSTNESS_FACTOR );
+		// @phan-suppress-next-line PhanUnusedVariable RAII
 		$scope = $csp->scopedEnter( __METHOD__ );
 		for ( $i = 0; $i < 4; $i++ ) {
 			usleep( 50000 * self::ROBUSTNESS_FACTOR );
 		}
 		$e = null;
 		try {
+			// @phan-suppress-next-line PhanUnusedVariable RAII / Trigger destructor
 			$scope = null;
 		} catch ( \Exception $e ) {
 		}
@@ -100,12 +103,15 @@ class ExcimerRequestTimeoutTest extends TestCase {
 	public function testScopedCriticalSectionImplicitCallbackConfigured() {
 		$rt = new ExcimerRequestTimeout;
 		$i = 0;
+		// @phan-suppress-next-line PhanUnusedClosureParameter
 		$func = static function ( $id ) use ( &$i ) {
 			$i++;
 		};
 		$csp = $rt->createCriticalSectionProvider( 10, null, $func );
 		$rt->setWallTimeLimit( 10 );
+		// @phan-suppress-next-line PhanUnusedVariable RAII
 		$scope = $csp->scopedEnter( __METHOD__ );
+		// @phan-suppress-next-line PhanUnusedVariable Trigger destructor
 		$scope = null;
 		$this->assertSame( 1, $i );
 	}
@@ -115,12 +121,15 @@ class ExcimerRequestTimeoutTest extends TestCase {
 		$i = 0;
 		$noop = static function () {
 		};
+		// @phan-suppress-next-line PhanUnusedClosureParameter
 		$func = static function ( $id ) use ( &$i ) {
 			$i++;
 		};
 		$csp = $rt->createCriticalSectionProvider( 10, null, $noop );
 		$rt->setWallTimeLimit( 10 );
+		// @phan-suppress-next-line PhanUnusedVariable RAII
 		$scope = $csp->scopedEnter( __METHOD__, null, null, $func );
+		// @phan-suppress-next-line PhanUnusedVariable Trigger destructor
 		$scope = null;
 		$this->assertSame( 1, $i );
 	}
@@ -147,7 +156,7 @@ class ExcimerRequestTimeoutTest extends TestCase {
 		$csp = $rt->createCriticalSectionProvider( 0.1 );
 		$csp->enter( __METHOD__ );
 		$this->expectException( EmergencyTimeoutException::class );
-		// @phan-suppress-next-line PhanInfiniteLoop
+		// @phan-suppress-next-line PhanInfiniteLoop,PhanSideEffectFreeWhileBody
 		while ( true );
 	}
 
@@ -168,7 +177,7 @@ class ExcimerRequestTimeoutTest extends TestCase {
 			}
 		);
 		$this->expectException( RuntimeException::class );
-		// @phan-suppress-next-line PhanInfiniteLoop
+		// @phan-suppress-next-line PhanInfiniteLoop,PhanSideEffectFreeWhileBody
 		while ( true );
 	}
 

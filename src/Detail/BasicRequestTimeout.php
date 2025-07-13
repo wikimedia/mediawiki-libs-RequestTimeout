@@ -18,10 +18,12 @@ class BasicRequestTimeout extends RequestTimeout {
 	private $nextCriticalId = 1;
 
 	public function enterCriticalSection( $name, $emergencyLimit, $emergencyCallback ) {
+		// @phan-suppress-previous-line PhanUnusedPublicMethodParameter
 		return $this->nextCriticalId++;
 	}
 
 	public function exitCriticalSection( $id ) {
+		// @phan-suppress-previous-line PhanUnusedPublicMethodParameter
 	}
 
 	/**
