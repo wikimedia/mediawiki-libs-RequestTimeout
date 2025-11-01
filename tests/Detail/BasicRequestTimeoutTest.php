@@ -19,6 +19,7 @@ class BasicRequestTimeoutTest extends TestCase {
 
 	public function testGetWallTimeRemaining() {
 		$rt = new BasicRequestTimeout();
+		$this->assertSame( INF, $rt->getWallTimeRemaining() );
 		$rt->setWallTimeLimit( 10 );
 		$this->assertGreaterThan( 8, $rt->getWallTimeRemaining() );
 

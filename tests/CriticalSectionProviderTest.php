@@ -10,12 +10,13 @@ use Wikimedia\RequestTimeout\Detail\BasicRequestTimeout;
 /**
  * @covers \Wikimedia\RequestTimeout\CriticalSectionProvider
  * @covers \Wikimedia\RequestTimeout\CriticalSectionMismatchException
+ * @covers \Wikimedia\RequestTimeout\CriticalSectionScope
  */
 class CriticalSectionProviderTest extends TestCase {
 	private function createProvider() {
 		return new CriticalSectionProvider(
 			new BasicRequestTimeout,
-			10,
+			10.0,
 			null,
 			null
 		);
@@ -68,5 +69,10 @@ class CriticalSectionProviderTest extends TestCase {
 		$id2 = $scope->getId();
 		$this->assertIsInt( $id2 );
 		$this->assertNotEquals( $id1, $id2 );
+	}
+
+	public function testGetEmergencyLimit() {
+		$csp = $this->createProvider();
+		$this->assertSame( 10.0, $csp->getEmergencyLimit() );
 	}
 }

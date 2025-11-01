@@ -44,7 +44,9 @@ abstract class RequestTimeout {
 		if ( extension_loaded( 'excimer' ) ) {
 			return new ExcimerRequestTimeout;
 		} else {
+			// @codeCoverageIgnoreStart
 			return new BasicRequestTimeout;
+			// @codeCoverageIgnoreEnd
 		}
 	}
 

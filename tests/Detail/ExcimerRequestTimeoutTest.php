@@ -26,6 +26,7 @@ class ExcimerRequestTimeoutTest extends TestCase {
 
 	public function testGetWallTimeRemaining() {
 		$rt = new ExcimerRequestTimeout;
+		$this->assertSame( INF, $rt->getWallTimeRemaining() );
 		$rt->setWallTimeLimit( 10 );
 		$this->assertGreaterThan( 8, $rt->getWallTimeRemaining() );
 
@@ -42,8 +43,13 @@ class ExcimerRequestTimeoutTest extends TestCase {
 		$this->expectException( RequestTimeoutException::class );
 		$rt = new ExcimerRequestTimeout;
 		$rt->setWallTimeLimit( 0.1 );
-		// @phan-suppress-next-line PhanInfiniteLoop,PhanSideEffectFreeWhileBody
-		while ( true );
+		try {
+			// @phan-suppress-next-line PhanInfiniteLoop,PhanSideEffectFreeWhileBody
+			while ( true );
+		} catch ( RequestTimeoutException $e ) {
+			$this->assertSame( 0.1, $e->getLimit() );
+			throw $e;
+		}
 	}
 
 	public function testWatchdog() {
