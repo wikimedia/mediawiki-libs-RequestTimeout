@@ -13,6 +13,7 @@
 		<severity>0</severity>
 	</rule>
 
+	<rule ref="Generic.PHP.RequireStrictTypes" />
 	<file>.</file>
 	<arg name="extensions" value="php" />
 	<arg name="encoding" value="UTF-8" />
