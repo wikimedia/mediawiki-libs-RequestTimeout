@@ -44,7 +44,7 @@ class BasicRequestTimeout extends RequestTimeout {
 		}
 		$this->limit = ceil( $limit );
 		$this->startTime = $this->getCpuTime();
-		set_time_limit( $this->limit );
+		set_time_limit( (int)$this->limit );
 	}
 
 	public function getWallTimeRemaining() {
